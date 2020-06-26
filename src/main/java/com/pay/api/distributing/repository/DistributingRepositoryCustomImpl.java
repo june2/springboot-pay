@@ -6,6 +6,8 @@ import com.pay.api.distributing.model.QDistributing;
 import com.pay.api.roomUser.model.QRoomUser;
 import com.pay.api.roomUser.model.RoomUser;
 
+import java.util.List;
+
 public class DistributingRepositoryCustomImpl extends BaseRepositoryImpl implements DistributingRepositoryCustom {
 
     private final QDistributing table = QDistributing.distributing;
@@ -28,6 +30,14 @@ public class DistributingRepositoryCustomImpl extends BaseRepositoryImpl impleme
                 table.roomUserId.eq(roomUserId)
                         .and(table.token.eq(token))
                         .and(table.takerId.eq(userId))).fetchCount() > 0;
+    }
+
+    @Override
+    public List<Distributing> findByGiverIdAndToken(long roomUserId, long giverId, String token) {
+        return from(table).where(
+                table.roomUserId.eq(roomUserId)
+                        .and(table.giverId.eq(giverId))
+                        .and(table.token.eq(token))).fetch();
     }
 
 

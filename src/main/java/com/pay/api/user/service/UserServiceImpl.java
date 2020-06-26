@@ -5,6 +5,7 @@ import com.pay.api.distributing.repository.DistributingRepository;
 import com.pay.api.roomUser.model.RoomUser;
 import com.pay.api.roomUser.repository.RoomUserRepository;
 import com.pay.api.user.dto.ReqToken;
+import com.pay.api.user.dto.ResDistributingUsers;
 import com.pay.api.user.model.User;
 import com.pay.api.user.repository.UserRepository;
 import com.pay.exception.ResourceUnauthorizedException;
@@ -70,7 +71,7 @@ public class UserServiceImpl implements UserService {
         // 유효한 토큰 확인
         Distributing distributing = distributingRepository.findValidOne(roomUser.getId(), token);
         if (!Optional.ofNullable(distributing).isPresent()) {
-            throw new ResourceUnauthorizedException("Invalid toekn");
+            throw new ResourceUnauthorizedException("Invalid token");
         }
         // 시간체크 10분 유효
         if (!Date.isValidTime(distributing.getCreatedAt(), 10)) {
@@ -81,5 +82,19 @@ public class UserServiceImpl implements UserService {
         distributing.setTakenAt(Date.getNow());
         distributingRepository.save(distributing);
         return distributing;
+    }
+
+    @Override
+    public ResDistributingUsers getDistributingUsers(long userId, long roomId, String token) {
+        // 유저가 room에 속해있는지 체크
+        RoomUser roomUser = roomUserRepository.findUserInRoom(userId, roomId);
+        if (!Optional.ofNullable(roomUser).isPresent()) {
+            throw new ResourceUnauthorizedException("Invalid user in room");
+        }
+        List<Distributing> users = distributingRepository.findByGiverIdAndToken(roomUser.getId(), userId, token);
+        if (users.isEmpty()) {
+            throw new ResourceUnauthorizedException("Invalid token or User");
+        }
+        return ResDistributingUsers.builder().users(users).build();
     }
 }

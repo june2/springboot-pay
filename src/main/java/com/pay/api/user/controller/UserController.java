@@ -49,4 +49,12 @@ public class UserController {
                                              @RequestHeader(value = "X-ROOM-ID", required = true) long roomId) {
         return new ResponseEntity<>(ResponseHandler.success(userService.getDistributing(userId, roomId, token)), HttpStatus.OK);
     }
+
+    @ApiOperation(value = "조회", notes = "조회", httpMethod = "GET")
+    @GetMapping("/room/distributing/users")
+    public ResponseEntity<?> getDistributingUsers(@RequestParam String token,
+                                                  @RequestHeader(value = "X-USER-ID", required = true) long userId,
+                                                  @RequestHeader(value = "X-ROOM-ID", required = true) long roomId) {
+        return new ResponseEntity<>(ResponseHandler.success(userService.getDistributingUsers(userId, roomId, token)), HttpStatus.OK);
+    }
 }
