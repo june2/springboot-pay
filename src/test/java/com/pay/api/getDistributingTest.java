@@ -1,43 +1,45 @@
 package com.pay.api;
 
 
+import com.pay.ApplicationTest;
+import com.pay.api.room.model.Room;
+import com.pay.api.room.repository.RoomRepository;
+import com.pay.api.roomUser.model.RoomUser;
+import com.pay.api.roomUser.repository.RoomUserRepository;
+import com.pay.api.user.model.User;
+import com.pay.api.user.repository.UserRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * 받기 API 테스트
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class getDistributingTest {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
+public class GetDistributingTest  extends ApplicationTest {
     /**
-     * 유효한 방이 아닐때,
+     * 유효한 토큰이 아닐때,
      * 유저가 방에 존재하지 않음
      */
     @Test
-    public void shouldGet401RoomToken() {
+    public void shouldGet401() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-USER-ID", "100");
-        headers.add("X-ROOM-ID", "100");
-        headers.add("Content-Type", "application/json");
-        HttpEntity<String> request = new HttpEntity<String>(
-                "{\"number\": 10, \"amount\":10 }",
-                headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("/api/users/room/token", request, String.class);
+        headers.add("X-USER-ID", "1");
+        headers.add("X-ROOM-ID", "1");
+        HttpEntity<String> request = new HttpEntity<String>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange("/api/users/room/distributing?token=abc", HttpMethod.GET, request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
@@ -49,14 +51,29 @@ public class getDistributingTest {
     @Test
     public void shouldGet400RoomToken() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-USER-ID", "100");
-        headers.add("X-ROOM-ID", "100");
+        headers.add("X-USER-ID", "1");
+        headers.add("X-ROOM-ID", "1");
         headers.add("Content-Type", "application/json");
         HttpEntity<String> request = new HttpEntity<String>(
                 "{\"number\": 10, \"amount\":0 }",
                 headers);
         ResponseEntity<String> response = restTemplate.postForEntity("/api/users/room/token", request, String.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * 유효한 토큰이 아닐때,
+     * 유저가 방에 존재하지 않음
+     */
+    @Test
+    public void shouldGet200() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-USER-ID", "1");
+        headers.add("X-ROOM-ID", "1");
+        HttpEntity<String> request = new HttpEntity<String>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange("/api/users/room/distributing?token=abc", HttpMethod.GET, request, Map.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.UNAUTHORIZED);
     }
 
 }

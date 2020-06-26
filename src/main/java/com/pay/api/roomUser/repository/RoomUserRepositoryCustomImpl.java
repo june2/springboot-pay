@@ -21,6 +21,11 @@ public class RoomUserRepositoryCustomImpl extends BaseRepositoryImpl implements 
     }
 
     @Override
+    public RoomUser findUserInRoom(long userId, long roomId) {
+        return from(table).where(table.userId.eq(userId).and(table.roomId.eq(roomId))).fetchOne();
+    }
+
+    @Override
     public List<RoomUser> findUsersExceptUserId(long userId) {
         return from(table).where(table.userId.ne(userId)).fetch();
     }

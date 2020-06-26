@@ -11,5 +11,5 @@ public interface UserService {
 
     String addDistributing(long userId, long domainId, ReqToken reqToken);
 
-    Distributing getDistributing(long userId, String token);
+    Distributing getDistributing(long userId, long roomId, String token);
 }

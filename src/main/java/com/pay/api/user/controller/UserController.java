@@ -42,11 +42,11 @@ public class UserController {
         return new ResponseEntity<>(ResponseHandler.success(userService.addDistributing(userId, roomId, reqToken)), HttpStatus.OK);
     }
 
-    @ApiOperation(value = "받기", notes = "받기", httpMethod = "POST")
+    @ApiOperation(value = "받기", notes = "받기", httpMethod = "GET")
     @GetMapping("/room/distributing")
     public ResponseEntity<?> getDistributing(@RequestParam String token,
                                              @RequestHeader(value = "X-USER-ID", required = true) long userId,
                                              @RequestHeader(value = "X-ROOM-ID", required = true) long roomId) {
-        return new ResponseEntity<>(ResponseHandler.success(userService.getDistributing(userId, token)), HttpStatus.OK);
+        return new ResponseEntity<>(ResponseHandler.success(userService.getDistributing(userId, roomId, token)), HttpStatus.OK);
     }
 }

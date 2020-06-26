@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Builder
 @Entity
 @AllArgsConstructor()
+@NoArgsConstructor()
 @Table(name = "ROOM_USER")
 public class RoomUser extends BaseEntity {
     @Column(name = "user_id")

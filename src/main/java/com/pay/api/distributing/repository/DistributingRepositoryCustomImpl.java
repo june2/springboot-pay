@@ -15,7 +15,20 @@ public class DistributingRepositoryCustomImpl extends BaseRepositoryImpl impleme
     }
 
     @Override
-    public Distributing findByUserIdAndToken(long userId, String token) {
-        return from(table).where(table.userId.eq(userId).and(table.token.eq(token))).fetchOne();
+    public Distributing findValidOne(long roomUserId, String token) {
+        return from(table).where(
+                table.roomUserId.eq(roomUserId)
+                        .and(table.token.eq(token))
+                        .and(table.takerId.isNull())).fetchOne();
     }
+
+    @Override
+    public boolean hasDistributing(long roomUserId, long userId, String token) {
+        return from(table).where(
+                table.roomUserId.eq(roomUserId)
+                        .and(table.token.eq(token))
+                        .and(table.takerId.eq(userId))).fetchCount() > 0;
+    }
+
+
 }

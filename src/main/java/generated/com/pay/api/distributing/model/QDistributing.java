@@ -26,17 +26,21 @@ public class QDistributing extends EntityPathBase<Distributing> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 
+    public final NumberPath<Long> giverId = createNumber("giverId", Long.class);
+
     //inherited
     public final NumberPath<Long> id = _super.id;
 
     public final NumberPath<Long> roomUserId = createNumber("roomUserId", Long.class);
 
+    public final DateTimePath<java.time.LocalDateTime> takenAt = createDateTime("takenAt", java.time.LocalDateTime.class);
+
+    public final NumberPath<Long> takerId = createNumber("takerId", Long.class);
+
     public final StringPath token = createString("token");
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updatedAt = _super.updatedAt;
-
-    public final NumberPath<Long> userId = createNumber("userId", Long.class);
 
     public QDistributing(String variable) {
         super(Distributing.class, forVariable(variable));
