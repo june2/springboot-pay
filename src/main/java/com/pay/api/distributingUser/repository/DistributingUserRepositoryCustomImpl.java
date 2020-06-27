@@ -24,4 +24,9 @@ public class DistributingUserRepositoryCustomImpl extends BaseRepositoryImpl imp
     public List<DistributingUser> findByDistributingId(long distributingId) {
         return from(table).where(table.distributingId.eq(distributingId)).fetch();
     }
+
+    @Override
+    public long cntBy(long distributingId) {
+        return from(table).where(table.distributingId.eq(distributingId)).fetchCount();
+    }
 }

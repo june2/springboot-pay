@@ -9,4 +9,6 @@ public interface DistributingUserRepositoryCustom {
     boolean hasOne(long distributingId, long userId);
 
     List<DistributingUser> findByDistributingId(long distributingId);
+
+    long cntBy(long distributingId);
 }

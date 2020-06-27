@@ -16,7 +16,8 @@ public enum ResponseType {
     INVALID_USER("C4011", "유효한 사용자가 아닙니다."),
     INVALID_TIME("C4012", "토큰시간이 만료되었습니다."),
     ALREADY_TAKEN("C4013", "이미 획득했습니다."),
-    NOT_ENOUGH("C4014", "잔액이 부족합니다.");
+    NOT_ENOUGH("C4014", "잔액이 부족합니다."),
+    EVERY_TAKEN("C4015", "이미 모두 소진되었습니다.");
 
     private String code;
     @Setter

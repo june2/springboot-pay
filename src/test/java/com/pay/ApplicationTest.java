@@ -13,6 +13,7 @@ import com.pay.api.user.model.User;
 import com.pay.api.user.repository.UserRepository;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,6 +27,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -50,7 +53,7 @@ public class ApplicationTest {
     @Before
     public void init() {
         List<User> users = new ArrayList<>();
-        User user1 = User.builder().name("user1").balence(100000).build();
+        User user1 = User.builder().name("user1").balence(20000).build();
         user1.setId(1L);
         User user2 = User.builder().name("user2").build();
         user2.setId(2L);
@@ -95,8 +98,15 @@ public class ApplicationTest {
                 .roomId(4L)
                 .userId(1L)
                 .amount(1000)
-                .number(2)
+                .number(1)
                 .token("asd")
+                .build());
+        distributings.add(Distributing.builder()
+                .roomId(4L)
+                .userId(1L)
+                .amount(1000)
+                .number(1)
+                .token("zxc")
                 .build());
 
         userRepository.saveAll(users);
@@ -105,6 +115,8 @@ public class ApplicationTest {
         distributingRepository.saveAll(distributings);
         distributingUserRepository.save(DistributingUser.builder()
                 .userId(2L).distributingId(9).amount(500).takenAt(LocalDateTime.now()).build());
+        distributingUserRepository.save(DistributingUser.builder()
+                .userId(2L).distributingId(12).amount(1000).takenAt(LocalDateTime.now()).build());
 
         Optional<Distributing> d = distributingRepository.findById(10L);
         Distributing d1 = d.get();
@@ -133,5 +145,9 @@ public class ApplicationTest {
         em.close();
     }
 
+    @Test
+    public void run() {
+//        assertThat(true).isTrue();
+    }
 }
 

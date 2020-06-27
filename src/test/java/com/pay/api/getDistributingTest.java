@@ -106,6 +106,21 @@ public class GetDistributingTest  extends ApplicationTest {
     }
 
     /**
+     * 이미 소진체크, 에러
+     */
+    @Test
+    public void shouldGetC4015() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-USER-ID", "3");
+        headers.add("X-ROOM-ID", "4");
+        HttpEntity<String> request = new HttpEntity<String>(headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange("/api/users/room/distributing?token=zxc", HttpMethod.GET, request, Map.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+        assertThat(response.getBody().get("code").toString()).isEqualTo("C4015");
+    }
+
+    /**
      * 정상 동작
      */
     @Test
@@ -117,6 +132,7 @@ public class GetDistributingTest  extends ApplicationTest {
 
         ResponseEntity<Map> response = restTemplate.exchange("/api/users/room/distributing?token=abc", HttpMethod.GET, request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(this.userRepository.findById(3L).get().getBalence()).isEqualTo(500);
     }
 }
 

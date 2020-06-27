@@ -71,6 +71,7 @@ public class AddDistributingTest extends ApplicationTest {
     /**
      * 정상 동작, 토큰값 리턴
      * 토큰길이 3
+     * 잔액 차감 확인
      */
     @Test
     public void shouldGet200() {
@@ -79,11 +80,12 @@ public class AddDistributingTest extends ApplicationTest {
         headers.add("X-ROOM-ID", "4");
         headers.add("Content-Type", "application/json");
         HttpEntity<String> request = new HttpEntity<String>(
-                "{\"number\": 2, \"amount\":100 }",
+                "{\"number\": 2, \"amount\":10000 }",
                 headers);
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/users/room/distributing", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().get("data").toString().length()).isEqualTo(3);
+        assertThat(this.userRepository.findById(1L).get().getBalence()).isEqualTo(10000);
     }
 }
 

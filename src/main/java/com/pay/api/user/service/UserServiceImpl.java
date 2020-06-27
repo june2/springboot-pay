@@ -96,9 +96,13 @@ public class UserServiceImpl implements UserService {
         if (!Date.isValidTime(distributing.getCreatedAt(), 10)) {
             throw new UnauthorizedException(ResponseType.INVALID_TIME, "Token time out");
         }
-        // 토큰 받았는지 체큰
+        // 이미 받았는지 체크
         if (distributingUserRepository.hasOne(distributing.getId(), userId)) {
             throw new ForbiddenException(ResponseType.ALREADY_TAKEN, "Already taken");
+        }
+        // 뿌리기 소진 체크
+        if (distributingUserRepository.cntBy(distributing.getId()) >= distributing.getNumber()) {
+            throw new ForbiddenException(ResponseType.EVERY_TAKEN, "Every taken");
         }
         // 유저 잔액 조회
         Optional<User> userO = userRepository.findById(userId);
