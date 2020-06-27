@@ -34,15 +34,14 @@ http://localhost:3001/swagger-ui.html
 ```
 
 ---
+### ERD 설계
+![image](https://user-images.githubusercontent.com/5827617/85914096-3b12e580-b875-11ea-8953-f0ad162e1370.png)
 - 사용자 잔액 관련 테이블은 제외, 사용자 필드에서 처리
 - room_user 방에 참여한 사용자 리스트
 - distributing 방에 뿌리기 정보
   - token, user_id, room_id 복합키로 중복 제거 필요
   - 또는 유효시간으로 중복 제거 필요
 - distributing_user 뿌리기 받은 유저 정보
-### ERD 설계
-![image](https://user-images.githubusercontent.com/5827617/85914096-3b12e580-b875-11ea-8953-f0ad162e1370.png)
-
 ---
 
 ### API 설계
