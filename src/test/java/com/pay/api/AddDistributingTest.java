@@ -8,6 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
@@ -22,8 +24,8 @@ public class AddDistributingTest extends ApplicationTest {
     @Test
     public void shouldGet401() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-USER-ID", "100");
-        headers.add("X-ROOM-ID", "100");
+        headers.add("X-USER-ID", "1");
+        headers.add("X-ROOM-ID", "10");
         headers.add("Content-Type", "application/json");
         HttpEntity<String> request = new HttpEntity<String>(
                 "{\"number\": 10, \"amount\":10 }",
@@ -40,8 +42,8 @@ public class AddDistributingTest extends ApplicationTest {
     @Test
     public void shouldGet400() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-USER-ID", "100");
-        headers.add("X-ROOM-ID", "100");
+        headers.add("X-USER-ID", "1");
+        headers.add("X-ROOM-ID", "14");
         headers.add("Content-Type", "application/json");
         HttpEntity<String> request = new HttpEntity<String>(
                 "{\"number\": 10, \"amount\":0 }",
@@ -51,19 +53,37 @@ public class AddDistributingTest extends ApplicationTest {
     }
 
     /**
+     *  사용자 잔액부족
+     */
+    @Test
+    public void shouldGet403() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-USER-ID", "2");
+        headers.add("X-ROOM-ID", "4");
+        headers.add("Content-Type", "application/json");
+        HttpEntity<String> request = new HttpEntity<String>(
+                "{\"number\": 2, \"amount\":100 }",
+                headers);
+        ResponseEntity<String> response = restTemplate.postForEntity("/api/users/room/distributing", request, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN);
+    }
+
+    /**
      * 정상 동작, 토큰값 리턴
+     * 토큰길이 3
      */
     @Test
     public void shouldGet200() {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-USER-ID", "1");
-        headers.add("X-ROOM-ID", "1");
+        headers.add("X-ROOM-ID", "4");
         headers.add("Content-Type", "application/json");
         HttpEntity<String> request = new HttpEntity<String>(
-                "{\"number\": 10, \"amount\":100 }",
+                "{\"number\": 2, \"amount\":100 }",
                 headers);
-        ResponseEntity<String> response = restTemplate.postForEntity("/api/users/room/distributing", request, String.class);
+        ResponseEntity<Map> response = restTemplate.postForEntity("/api/users/room/distributing", request, Map.class);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().get("data").toString().length()).isEqualTo(3);
     }
 }
 

@@ -21,6 +21,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final com.pay.api.base.QBaseEntity _super = new com.pay.api.base.QBaseEntity(this);
 
+    public final NumberPath<Double> balence = createNumber("balence", Double.class);
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
 

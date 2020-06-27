@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
 
 @Setter
 @Getter
@@ -16,14 +15,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor()
 @Table(name = "DISTRIBUTING")
 public class Distributing extends BaseEntity {
-    @Column(name = "room_user_id")
-    long roomUserId;
-    @Column(name = "giver_id")
-    long giverId;
-    @Column(name = "taker_id")
-    long takerId;
+
+    @Column(name = "room_id")
+    long roomId;
+
+    @Column(name = "user_id")
+    long userId;
+
     long amount;
+
+    long number;
+
     String token;
-    @Column(name = "taken_at")
-    private LocalDateTime takenAt;
 }

@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
-public class ResourceUnauthorizedException extends RuntimeException {
+public class UnauthorizedException extends RuntimeException {
+    public ResponseType type;
 
-    public ResourceUnauthorizedException(String message) {
+    public UnauthorizedException(ResponseType type, String message) {
         super(String.format(message));
+        this.type = type;
     }
 }

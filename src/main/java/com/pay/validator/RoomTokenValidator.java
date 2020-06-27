@@ -1,5 +1,7 @@
 package com.pay.validator;
 
+import com.pay.exception.BadRequestException;
+import com.pay.handler.ResponseType;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 
 import javax.validation.Constraint;
@@ -28,9 +30,13 @@ public class RoomTokenValidator implements ConstraintValidator<RoomToken, Object
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        long amount = Long.parseLong(PARSER.parseExpression(fields[0]).getValue(value).toString());
-        long number = Long.parseLong(PARSER.parseExpression(fields[1]).getValue(value).toString());
-        if (amount == 0 || number == 0) return false;
-        return amount % number == 0;
+        try {
+            long amount = Long.parseLong(PARSER.parseExpression(fields[0]).getValue(value).toString());
+            long number = Long.parseLong(PARSER.parseExpression(fields[1]).getValue(value).toString());
+            if (amount == 0 || number == 0) return false;
+            return amount % number == 0;
+        } catch (Exception e) {
+            throw new BadRequestException(ResponseType.BAD_REQUEST, "Invalid param");
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.pay.api.user.controller;
 
-import com.pay.api.roomUser.service.RoomUserService;
 import com.pay.api.user.constant.UserConstant;
 import com.pay.api.user.dto.ReqToken;
 import com.pay.api.user.service.UserService;
@@ -23,10 +22,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-    @Autowired
-    private RoomUserService roomUserService;
 
-    @ApiOperation(value = "모든 사용자 조히", notes = "모든 사용자 조히", httpMethod = "GET")
+    @ApiOperation(value = "모든 사용자 조회", notes = "모든 사용자 조회", httpMethod = "GET")
     @GetMapping("")
     public ResponseEntity<?> findAll() {
         return new ResponseEntity<>(

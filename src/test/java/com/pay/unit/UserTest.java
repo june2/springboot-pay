@@ -1,7 +1,8 @@
 package com.pay.unit;
 
-import com.pay.api.roomUser.repository.RoomUserRepository;
-import com.pay.api.roomUser.service.RoomUserServiceImpl;
+import com.pay.api.user.repository.UserRepository;
+import com.pay.api.user.service.UserService;
+import com.pay.api.user.service.UserServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -10,13 +11,13 @@ import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class roomTest {
+public class UserTest {
 
     @InjectMocks
-    private RoomUserServiceImpl roomUserService;
+    private UserServiceImpl userService;
 
     @Mock
-    private RoomUserRepository roomUserRepository;
+    private UserRepository userRepository;
 
     @Before
     public void setUp() throws Exception {
@@ -25,6 +26,6 @@ public class roomTest {
 
     @Test
     public void shouldUserInRoom() {
-        assertThat(roomUserService.isUserInRoom(1L, 1L)).isFalse();
+        assertThat(userService.findAll().size()).isZero();
     }
 }

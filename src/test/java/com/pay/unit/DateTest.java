@@ -8,12 +8,12 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class dateTest {
+public class DateTest {
 
     @Test
     public void validDate() {
         assertThat(Date.isValidTime(
-                LocalDateTime.now().minusMinutes(5), 10)
-        ).isTrue();
+                LocalDateTime.now().minusMinutes(15), 10)
+        ).isFalse();
     }
 }

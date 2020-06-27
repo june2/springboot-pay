@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class tokenTest {
+public class TokenTest {
 
     @Test
     public void encode() {

@@ -15,7 +15,7 @@ public class Date {
      */
     public static boolean isValidTime(LocalDateTime from, long validTime) {
         LocalDateTime now = LocalDateTime.now();
-        from.plusMinutes(validTime);
-        return now.isAfter(from);
+        from = from.plusMinutes(validTime);
+        return from.isAfter(now);
     }
 }
